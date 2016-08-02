@@ -5,7 +5,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Request;
 use Carbon\Carbon;
-//use Illuminate\Database\Query\Builder;
+use App\Http\Requests\CreateArticleRequest;
 
 class ArticlesController extends Controller {
 
@@ -39,12 +39,20 @@ class ArticlesController extends Controller {
         return view('articles.create');
     }
 
-    public function store()
+    public function store(CreateArticleRequest $request)
     {
 //        $input['published_at'] = Carbon::now();
 
-        Article::create(Request::all());
+        Article::create($request->all());
 
         return redirect('articles');
+    }
+
+    public function edit($id)
+    {
+        dd($id);
+        $article = Article::findOrFail($id);
+
+        return view('articles.edit', compact($article));
     }
 }
